@@ -8,24 +8,24 @@ function init() {
     $('form').submit(function(e) {
         e.preventDefault(); // prevents page reloading
         //send the value of the input to server through socket
-        socket.emit('chat_message', $('#txt').val());
+        socket.emit('submitted_message', $('#txt').val());
         $('#txt').val(''); //empty the input field for any new message to b typed
         return false;
     });
 
+    // when receiving th 'on_line' event, append text with username
+    socket.on('participant', function(pseudoname) {
+        $('#messages').append($('<li>').html(pseudoname));
+    });
+
     // when 'chat_message' event is received, append message received from server username
-    socket.on('chat_message', function(msg) {
+    socket.on('submitted_message', function(msg) {
         $('#messages').append($('<li>').html(msg));
     });
 
-    // when receiving th 'on_line' event, append text with username
-    socket.on('is_online', function(username) {
-        $('#messages').append($('<li>').html(username));
-    });
-
     // ask for username
-    username = prompt('Please tell me your name');
+    pseudoname = prompt('Please provide us with a pseudoname');
     //emit username to sever
-    socket.emit('username', username);
+    socket.emit('login', pseudoname);
 
 }
