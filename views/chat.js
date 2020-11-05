@@ -1,6 +1,8 @@
 function init() {
     //when the page loads
     //create the scoket and connect to server on port 3000
+    //creating the socket is done once and the reference to the socket object 
+    //is stored in a global variable for subsequent use
     socket = io.connect('http://localhost:3000');
 
 
